@@ -1,15 +1,18 @@
 package com.example.producer.listeners;
 
 import com.example.producer.User;
+import org.apache.kafka.clients.admin.NewTopic;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserListener {
+
 
 
 
