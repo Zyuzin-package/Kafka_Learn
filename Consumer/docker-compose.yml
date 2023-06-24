@@ -12,17 +12,31 @@ services:
     environment:
       - ALLOW_PLAINTEXT_LISTENER=yes
       - ALLOW_ANONYMOUS_LOGIN=yes
-  my-app:
-    build:
-      context: ./
-    networks:
-      - app-tier
+#  my-app:
+#    build:
+#      context: ./
+#    networks:
+#      - app-tier
   zookeeper:
     image: 'bitnami/zookeeper:latest'
     ports:
       - '2181:2181'
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
+
+
+  kafdrop:
+    image: obsidiandynamics/kafdrop
+    container_name: kafdrop
+    restart: "no"
+    networks:
+      - app-tier
+    ports:
+      - "9000:9000"
+    environment:
+      KAFKA_BROKERCONNECT: "kafka:29092"
+    depends_on:
+      - "kafka"
 
 #version: "3.9"
 #services:
