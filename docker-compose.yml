@@ -1,0 +1,49 @@
+version: '5.6'
+
+networks:
+  app-tier:
+    driver: bridge
+
+services:
+  kafka:
+    image: 'bitnami/kafka:latest'
+    networks:
+      - app-tier
+    environment:
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - ALLOW_ANONYMOUS_LOGIN=yes
+#  my-app:
+#    build:
+#      context: ./
+#    networks:
+#      - app-tier
+  zookeeper:
+    image: 'bitnami/zookeeper:latest'
+    ports:
+      - '2181:2181'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+  consumer:
+    build:
+      context:
+        ./Consumer/src/main/java/com/example/consumer/ConsumerApplication
+    networks:
+      - app-tier
+  producer:
+    build:
+      context:
+        ./Producer/src/main/java/com/example/producer/ProducerApplication
+    networks:
+      - app-tier
+#  kafdrop:
+#    image: obsidiandynamics/kafdrop
+#    container_name: kafdrop
+#    restart: "no"
+#    networks:
+#      - app-tier
+#    ports:
+#      - "9000:9000"
+#    environment:
+#      KAFKA_BROKERCONNECT: "kafka:29092"
+#    depends_on:
+#      - "kafka"
